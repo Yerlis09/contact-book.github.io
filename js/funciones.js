@@ -1,11 +1,22 @@
 export const guardarContacto = (db, contacto) => {
+    const vacio = camposNoVacios(contacto)
     const existe = validarRepetidos(db, contacto)
-    if (existe) {
-        alert("El contacto ya existe")
+    if (!vacio) {
+        if (existe) {
+            alert("El contacto ya existe")
+        } else {
+            db.setItem(contacto.id, JSON.stringify(contacto))
+            window.location.href = '/'
+            alert("El contacto fue registrado satisfactoriamente")
+        }
     } else {
-        db.setItem(contacto.id, JSON.stringify(contacto))
-        window.location.href = '/'
-        alert("El contacto fue registrado satisfactoriamente")
+        alert("El campo nombre o numero esta vacio")
+    }
+}
+
+const camposNoVacios = (contacto) => {
+    if (contacto.nombre == "" || contacto.numero == "") {
+        return true
     }
 }
 
